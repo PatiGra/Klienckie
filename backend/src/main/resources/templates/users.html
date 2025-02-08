@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <title>
+        Lista użytkowników
+    </title>
+</head>
+<body>
+
+    <h1>Lista użytkowników - zmiana z 31.01.2025</h1>
+<!-- Tabela użytkowników -->
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Imię</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${allUsers}">
+                <td th:text="${user.id}"}></td>
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <a th:href="@{'users/edit/' + ${user.id}}">Edytuj</a>
+                </td>
+                <td>
+                    <form th:action="@{/users/delete/{id}(id=${user.id})}" method="post" style="display: inline;">
+                        <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf_token}" />
+                        <button type="submit">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<!--    Formularz dodania użytkownika   -->
+    <h2>Dodaj użytkownika</h2>
+    <form action="/users" method="post">
+        <label for="name">Imię:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <br>
+        <button type="submit">Dodaj użytkownika</button>
+    </form>
+
+</body>
+</html>
